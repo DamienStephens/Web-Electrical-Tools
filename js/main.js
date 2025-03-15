@@ -125,60 +125,79 @@ const App = {
             radio.closest('.selector-option').classList.add('active');
         });
 
+        // Function to update custom voltage input visibility
+        const updateCustomVoltageVisibility = (calculator) => {
+            const customVoltageDiv = calculator.querySelector('.custom-voltage');
+            const customRadio = calculator.querySelector('input[value="custom"]:checked');
+            if (customVoltageDiv) {
+                customVoltageDiv.style.display = customRadio ? 'block' : 'none';
+            }
+        };
+
         // Add change event listeners for phase selection
         document.querySelectorAll('input[name$="Phase"]').forEach(phaseRadio => {
             phaseRadio.addEventListener('change', function() {
                 const calculator = this.closest('.calculator');
                 const voltageGroup = calculator.querySelector('.selector-group');
                 const selectedPhase = parseInt(this.value);
+                const currentVoltage = calculator.querySelector(`input[name$="Voltage"]:checked`);
                 
                 // Show/hide voltage options based on phase
                 voltageGroup.querySelectorAll('.selector-option').forEach(option => {
-                    const optionPhases = option.dataset.phase.split(',').map(phase => parseInt(phase));
-                    if (optionPhases.includes(selectedPhase)) {
+                    const input = option.querySelector('input');
+                    if (input.value === 'custom') {
                         option.style.display = 'block';
                     } else {
-                        option.style.display = 'none';
+                        const optionPhases = option.dataset.phase.split(',').map(phase => parseInt(phase));
+                        option.style.display = optionPhases.includes(selectedPhase) ? 'block' : 'none';
                     }
                 });
 
-                // If current voltage selection is not valid for new phase, select first available voltage
-                const currentVoltage = calculator.querySelector(`input[name$="Voltage"]:checked`);
-                if (currentVoltage) {
+                // If current selection is not visible and not custom, select first available
+                if (currentVoltage && currentVoltage.value !== 'custom') {
                     const currentOption = currentVoltage.closest('.selector-option');
-                    const currentPhases = currentOption.dataset.phase.split(',').map(phase => parseInt(phase));
-                    if (!currentPhases.includes(selectedPhase)) {
-                        // Find first available voltage for the new phase
-                        const firstAvailableVoltage = calculator.querySelector(`.selector-option[data-phase*="${selectedPhase}"] input`);
+                    if (currentOption.style.display === 'none') {
+                        const firstAvailableVoltage = voltageGroup.querySelector(`.selector-option[data-phase*="${selectedPhase}"]:not([style*="none"]) input`);
                         if (firstAvailableVoltage) {
-                            // Remove active class from all options first
-                            voltageGroup.querySelectorAll('.selector-option').forEach(option => {
-                                option.classList.remove('active');
-                            });
-                            // Set new selection
                             firstAvailableVoltage.checked = true;
+                            voltageGroup.querySelectorAll('.selector-option').forEach(opt => opt.classList.remove('active'));
                             firstAvailableVoltage.closest('.selector-option').classList.add('active');
                         }
                     }
                 }
+
+                // Update custom voltage visibility
+                updateCustomVoltageVisibility(calculator);
             });
         });
 
         // Add change event listeners for voltage selection
         document.querySelectorAll('.selector-option input[type="radio"]').forEach(radio => {
             radio.addEventListener('change', function() {
-                // Remove active class from all options in the same group
-                this.closest('.selector-group').querySelectorAll('.selector-option').forEach(option => {
+                const calculator = this.closest('.calculator');
+                
+                // Handle active class
+                const voltageGroup = this.closest('.selector-group');
+                voltageGroup.querySelectorAll('.selector-option').forEach(option => {
                     option.classList.remove('active');
                 });
-                // Add active class to the selected option
                 this.closest('.selector-option').classList.add('active');
+
+                // Update custom voltage visibility
+                updateCustomVoltageVisibility(calculator);
             });
         });
 
-        // Trigger initial phase change to set correct voltage options
-        document.querySelectorAll('input[name$="Phase"]:checked').forEach(phaseRadio => {
-            phaseRadio.dispatchEvent(new Event('change'));
+        // Initial setup
+        document.querySelectorAll('.calculator').forEach(calculator => {
+            // Trigger phase change for initial voltage option visibility
+            const phaseRadio = calculator.querySelector('input[name$="Phase"]:checked');
+            if (phaseRadio) {
+                phaseRadio.dispatchEvent(new Event('change'));
+            }
+            
+            // Ensure custom voltage visibility is correct
+            updateCustomVoltageVisibility(calculator);
         });
     }
 };

@@ -4,13 +4,24 @@
 // Amperage Calculator Module
 const AmperageCalculator = {
     calculate() {
-        const voltage = parseFloat(document.querySelector('input[name="amperageVoltage"]:checked').value);
+        const voltageElement = document.querySelector('input[name="amperageVoltage"]:checked');
         const phase = parseInt(document.querySelector('input[name="amperagePhase"]:checked').value);
         const power = parseFloat(document.getElementById('amperagePower').value);
 
         if (isNaN(power)) {
             this.showResult('Please enter a valid power value');
             return;
+        }
+
+        let voltage;
+        if (voltageElement.value === 'custom') {
+            voltage = parseFloat(document.getElementById('amperageCustomVoltageInput').value);
+            if (isNaN(voltage) || voltage <= 0) {
+                this.showResult('Please enter a valid custom voltage value');
+                return;
+            }
+        } else {
+            voltage = parseFloat(voltageElement.value);
         }
 
         let amperage;
@@ -33,13 +44,24 @@ const AmperageCalculator = {
 // VA Calculator Module
 const VACalculator = {
     calculate() {
-        const voltage = parseFloat(document.querySelector('input[name="vaVoltage"]:checked').value);
+        const voltageElement = document.querySelector('input[name="vaVoltage"]:checked');
         const phase = parseInt(document.querySelector('input[name="vaPhase"]:checked').value);
         const amperage = parseFloat(document.getElementById('vaAmperage').value);
 
         if (isNaN(amperage)) {
             this.showResult('Please enter a valid amperage value');
             return;
+        }
+
+        let voltage;
+        if (voltageElement.value === 'custom') {
+            voltage = parseFloat(document.getElementById('vaCustomVoltageInput').value);
+            if (isNaN(voltage) || voltage <= 0) {
+                this.showResult('Please enter a valid custom voltage value');
+                return;
+            }
+        } else {
+            voltage = parseFloat(voltageElement.value);
         }
 
         let va;
