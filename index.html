@@ -12,24 +12,31 @@
 <body>
     <!-- Sidebar Navigation -->
     <nav class="sidebar">
-        <h2>Electrical Tools</h2>
-        <ul>
-            <li onclick="App.showModule('amperageCalculator')">Amps Calculator</li>
-            <li onclick="App.showModule('vaCalculator')">VA Calculator</li>
-            <li onclick="App.showModule('wireSizeCalculator')">Wire Size Calculator</li>
-        </ul>
-        <div class="theme-selector">
-            <label class="theme-toggle">
-                <input type="checkbox" id="themeToggle" onchange="App.toggleTheme(this.checked)">
-                <span class="toggle-slider"></span>
-                <span class="toggle-label">Dark Mode</span>
-            </label>
-            <div class="color-selector">
-                <div class="color-option active" data-color="blue" style="background-color: #3498db;" onclick="App.setAccentColor('blue')"></div>
-                <div class="color-option" data-color="red" style="background-color: #ff0000;" onclick="App.setAccentColor('red')"></div>
-                <div class="color-option" data-color="purple" style="background-color: #8e44ad;" onclick="App.setAccentColor('purple')"></div>
-                <div class="color-option" data-color="pink" style="background-color: #e91e63;" onclick="App.setAccentColor('pink')"></div>
-                <div class="color-option" data-color="green" style="background-color: #27ae60;" onclick="App.setAccentColor('green')"></div>
+        <div class="sidebar-header">
+            <h2>Electrical Tools</h2>
+            <button class="menu-toggle" onclick="App.toggleMenu()">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+        <div class="sidebar-content">
+            <ul>
+                <li onclick="App.showModule('amperageCalculator')">Amps Calculator</li>
+                <li onclick="App.showModule('vaCalculator')">VA Calculator</li>
+                <li onclick="App.showModule('wireSizeCalculator')">Wire Size Calculator</li>
+            </ul>
+            <div class="theme-selector">
+                <label class="theme-toggle">
+                    <input type="checkbox" id="themeToggle" onchange="App.toggleTheme(this.checked)">
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-label">Dark Mode</span>
+                </label>
+                <div class="color-selector">
+                    <div class="color-option active" data-color="blue" style="background-color: #3498db;" onclick="App.setAccentColor('blue')"></div>
+                    <div class="color-option" data-color="red" style="background-color: #ff0000;" onclick="App.setAccentColor('red')"></div>
+                    <div class="color-option" data-color="purple" style="background-color: #8e44ad;" onclick="App.setAccentColor('purple')"></div>
+                    <div class="color-option" data-color="pink" style="background-color: #e91e63;" onclick="App.setAccentColor('pink')"></div>
+                    <div class="color-option" data-color="green" style="background-color: #27ae60;" onclick="App.setAccentColor('green')"></div>
+                </div>
             </div>
         </div>
     </nav>

@@ -73,6 +73,26 @@ body {
     border-right: 1px solid var(--border-color);
 }
 
+.sidebar-header {
+    margin-bottom: 2rem;
+}
+
+.sidebar-header h2 {
+    font-size: 1.5rem;
+    text-align: center;
+    color: white;
+}
+
+.menu-toggle {
+    display: none;
+}
+
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
 /* Light theme sidebar variants */
 [data-theme="light"][data-accent="blue"] .sidebar {
     background-color: #2c3e50;
@@ -104,15 +124,9 @@ body {
     border-right: 1px solid var(--border-color);
 }
 
-.sidebar h2 {
-    margin-bottom: 2rem;
-    font-size: 1.5rem;
-    text-align: center;
-}
-
 .sidebar ul {
-    list-style: none;
     flex-grow: 1;
+    list-style: none;
 }
 
 .sidebar li {
@@ -275,7 +289,110 @@ button:hover {
         width: 100%;
         height: auto;
         position: relative;
+        padding: 0;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .sidebar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         padding: 1rem;
+        margin-bottom: 0;
+        background-color: var(--sidebar-bg);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .sidebar-header h2 {
+        margin: 0;
+        font-size: 1.3rem;
+        text-align: left;
+    }
+
+    .menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .hamburger {
+        width: 24px;
+        height: 2px;
+        background-color: white;
+        position: relative;
+        transition: background-color 0.3s;
+    }
+
+    .hamburger::before,
+    .hamburger::after {
+        content: '';
+        position: absolute;
+        width: 24px;
+        height: 2px;
+        background-color: white;
+        transition: transform 0.3s;
+    }
+
+    .hamburger::before {
+        top: -6px;
+    }
+
+    .hamburger::after {
+        bottom: -6px;
+    }
+
+    .menu-toggle.active .hamburger {
+        background-color: transparent;
+    }
+
+    .menu-toggle.active .hamburger::before {
+        transform: rotate(45deg);
+        top: 0;
+    }
+
+    .menu-toggle.active .hamburger::after {
+        transform: rotate(-45deg);
+        bottom: 0;
+    }
+
+    .sidebar-content {
+        display: none;
+    }
+
+    .sidebar-content.visible {
+        display: block;
+        padding: 1rem;
+    }
+
+    .sidebar ul {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        flex-grow: 0;
+    }
+
+    .sidebar li {
+        width: 100%;
+        margin: 0;
+        text-align: left;
+        padding: 0.8rem;
+        font-size: 0.9rem;
+        border-radius: 4px;
+    }
+
+    .theme-selector {
+        padding: 0;
+        margin-top: 1rem;
+        border-top: 1px solid var(--border-color);
+        padding-top: 1rem;
     }
 
     .content {
@@ -285,6 +402,117 @@ button:hover {
 
     .container {
         padding: 1rem;
+        margin: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .container h2 {
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+    }
+
+    .selector-group {
+        flex-wrap: wrap;
+        gap: 0.3rem;
+    }
+
+    .selector-option {
+        min-width: calc(33.33% - 0.3rem);
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+        margin-bottom: 0.4rem;
+    }
+
+    input[type="number"] {
+        font-size: 1rem;
+        padding: 0.6rem;
+    }
+
+    button {
+        padding: 0.6rem;
+        font-size: 1rem;
+    }
+
+    .result {
+        font-size: 1rem;
+        padding: 0.8rem;
+        margin-top: 1rem;
+    }
+
+    .theme-selector {
+        padding: 0.8rem;
+    }
+
+    .color-selector {
+        justify-content: center;
+        gap: 0.4rem;
+    }
+
+    .color-option {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* Additional breakpoint for very small screens */
+@media (max-width: 480px) {
+    .sidebar li {
+        min-width: 120px;
+        font-size: 0.85rem;
+    }
+
+    .selector-option {
+        min-width: calc(50% - 0.3rem);
+        font-size: 0.85rem;
+    }
+
+    .container h2 {
+        font-size: 1.2rem;
+    }
+
+    .form-group label {
+        font-size: 0.85rem;
+    }
+
+    input[type="number"] {
+        font-size: 0.9rem;
+    }
+
+    button {
+        font-size: 0.9rem;
+    }
+
+    .theme-toggle {
+        font-size: 0.85rem;
+    }
+
+    .toggle-slider {
+        width: 44px;
+        height: 22px;
+    }
+
+    .toggle-slider:before {
+        width: 18px;
+        height: 18px;
+    }
+
+    .theme-toggle input:checked + .toggle-slider:before {
+        transform: translateX(22px);
+    }
+}
+
+/* Fix for iOS input zoom */
+@media screen and (max-width: 768px) {
+    input[type="number"] {
+        font-size: 16px !important;
     }
 }
 
@@ -411,4 +639,11 @@ button:hover {
     --button-hover: #219a52;
     --toggle-checked: #27ae60;
     --selector-active: #27ae60;
+}
+
+/* Add these styles to ensure proper button hiding in desktop */
+@media (min-width: 769px) {
+    .menu-toggle {
+        display: none !important;
+    }
 }

@@ -50,6 +50,15 @@ const App = {
         });
     },
 
+    // Toggle mobile menu
+    toggleMenu() {
+        const menuToggle = document.querySelector('.menu-toggle');
+        const sidebarContent = document.querySelector('.sidebar-content');
+        
+        menuToggle.classList.toggle('active');
+        sidebarContent.classList.toggle('visible');
+    },
+
     // Show selected module and hide others
     showModule(moduleId) {
         // Hide all modules
@@ -60,6 +69,11 @@ const App = {
         // Show selected module
         if (this.elements.modules[moduleId]) {
             this.elements.modules[moduleId].style.display = 'block';
+        }
+
+        // On mobile, close the menu after selection
+        if (window.innerWidth <= 768) {
+            this.toggleMenu();
         }
     },
 
